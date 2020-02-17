@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "jsx": "react",
+    "baseUrl": "./src",
+    "outDir": "dist",
+    "moduleResolution": "node",
+    "target": "es6",
+    "resolveJsonModule": true,
+    "paths": {
+      "images/*": ["images/*"],
+      "ui/*": ["ui/*"],
+      "views/*": ["views/*"]
+    }
+  },
+
+  "include": ["src/**/*"],
+  "files": ["src/index.d.ts"]
+}
