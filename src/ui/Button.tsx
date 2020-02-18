@@ -1,5 +1,5 @@
-import { modularScale, darken } from 'polished';
-import styled from 'styled-components';
+import { darken } from "polished";
+import styled from "styled-components";
 
 export const StyledButton = styled.button`
   outline: 0;
@@ -7,7 +7,6 @@ export const StyledButton = styled.button`
   border-radius: 5px;
   font-family: Aileron;
   font-weight: 500;
-  font-size: ${modularScale(0.1)};
   background-color: ${props => props.theme.colors.brand};
   color: white;
   cursor: pointer;
@@ -19,9 +18,8 @@ export const StyledButton = styled.button`
   }
 
   :active {
-    background-color: ${props => darken(0.1, props.theme.colors.brand)}
+    background-color: ${props => darken(0.1, props.theme.colors.brand)};
   }
-
 `;
 
 export default StyledButton;
