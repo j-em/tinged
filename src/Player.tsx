@@ -1,4 +1,3 @@
-import { modularScale } from "polished";
 import React, { useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
 
@@ -6,8 +5,6 @@ import Controls from "./Controls";
 import SeekBar from "./SeekBar";
 import SoundBar from "./SoundBar";
 import { colors } from "./theme";
-import { IAudioMetadata } from "music-metadata-browser";
-import media from "styled-media-query";
 
 export type Status = "playing" | "paused" | "stopped" | "loaded";
 
@@ -18,16 +15,12 @@ export type Metadata = {
   picture?: Buffer;
 };
 
-const Metadata = styled.div`
-  font-family: Aileron;
-`;
-
 const Img = styled.div`
-img {
-  min-width: 50px;
-  max-width: 100%;
-  height: auto;
-}
+  img {
+    min-width: 50px;
+    max-width: 100%;
+    height: auto;
+  }
 `;
 
 const Title = styled.h5`
@@ -36,10 +29,32 @@ const Title = styled.h5`
   margin: 0 0 5px 0;
   color: ${colors.gray[9]};
 `;
+
 const Album = styled.p`
   font-size: 1rem;
   margin: 0;
   color: ${props => props.theme.colors.secondary[7]};
+`;
+
+const Metadata = styled.div`
+  font-family: Aileron;
+  display: grid;
+  grid-gap: 0 1em;
+  padding: 1rem 0;
+
+  ${Img} {
+    justify-self: center;
+  }
+
+  ${Title} {
+    align-self: center;
+    justify-self: center;
+  }
+
+  ${Album} {
+    align-self: center;
+    justify-self: center;
+  }
 `;
 
 const Container = styled.div`
@@ -51,27 +66,7 @@ const Container = styled.div`
   align-items: center;
 
   ${Metadata} {
-    display: grid;
-    grid-gap: 0 1em;
     grid-column: 1/3;
-    padding: 1rem 0;
-
-    ${Img} {
-      justify-self: center;
-
-
-    }
-
-    ${Title} {
-      align-self: center;
-      justify-self: center;
-
-    }
-    
-    ${Album} {
-      align-self: center;
-      justify-self: center;
-    }
   }
 
   ${Controls} {
