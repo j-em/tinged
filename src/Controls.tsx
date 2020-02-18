@@ -2,8 +2,6 @@ import React from "react";
 import { FaPause, FaPlay, FaStop } from "react-icons/fa";
 import styled from "styled-components";
 
-import { colors } from "./theme";
-
 const Control = styled.div`
   transition: 0.2s tranform;
   padding: 0 1em;
