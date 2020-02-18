@@ -1,22 +1,20 @@
 import React from "react";
-
-import Button from "ui/Button";
+import { FaMusic, FaReact, FaSmile } from "react-icons/fa";
 import styled from "styled-components";
-import { FaMusic, FaSmile, FaReact } from "react-icons/fa";
+import Button from "ui/Button";
 
 const Heading = styled.h1`
-font-family: Aileron;
-margin: 0;
-font-size: 4rem;
+  font-family: Aileron;
+  margin: 0;
+  font-size: 4rem;
 `;
 
 const List = styled.ul`
-font-family: Aileron;
+  font-family: Aileron;
   list-style-type: none;
   margin: 0;
   padding: 0;
   font-size: 1.5rem;
-
 `;
 
 const ListElement = styled.li`
@@ -51,28 +49,27 @@ const Onboarding: React.FC<OnboardingProps> = ({ onStarted, className }) => {
 };
 
 const StyledOnboarding = styled(Onboarding)`
-display: flex;
-flex-direction: column;
-height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
-${Heading} {
-  flex: 1;
-  margin-left: 2rem;
-  margin-top: 2rem;
+  ${Heading} {
+    flex: 1;
+    margin-left: 2rem;
+    margin-top: 2rem;
+  }
 
-}
-${List} {
-  flex: 3;
-  margin-left: 2rem;
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-}
+  ${List} {
+    flex: 3;
+    margin-left: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
 
-${Button} {
-  margin: auto 2rem 2rem 2rem;
-  font-size: 1.5rem;
-
-}
-`
+  ${Button} {
+    margin: auto 2rem 2rem 2rem;
+    font-size: 1.5rem;
+  }
+`;
 
 export default StyledOnboarding;
