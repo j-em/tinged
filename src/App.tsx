@@ -87,7 +87,6 @@ const App: React.FC = props => {
         onstop: () => setStatus("stopped"),
         onend: () => {
           setStatus("stopped");
-          console.log("STOPPED");
         },
         onpause: () => setStatus("paused"),
 
