@@ -3,8 +3,8 @@ import { readFileSync } from "fs";
 import { Howl, Howler } from "howler";
 import { basename, extname } from "path";
 import { normalize } from "polished";
-import "react-hot-loader"
-import { hot } from "react-hot-loader"
+import "react-hot-loader";
+import { hot } from "react-hot-loader";
 import React, {
   useCallback,
   useEffect,
@@ -27,11 +27,13 @@ import useElectronMenu from "./useElectronMenu";
 import useMusicMetadata from "./useMusicMetadata";
 import Onboarding from "./Onboarding";
 
+import ailerontFont from "typeface-aileron/files/aileron-400.woff";
+
 const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: 'Aileron';
-  src: url("./aileron-500.woff") format("woff");
-  font-weight: 500;
+  src: url("${ailerontFont}") format("woff");
+  font-weight: 400;
   font-style: normal;
 }
 ${normalize()}
@@ -102,8 +104,8 @@ const App: React.FC = props => {
   const menuTemplate: (
     | Electron.MenuItem
     | Electron.MenuItemConstructorOptions
-  )[] = useMemo(() =>
-    [
+  )[] = useMemo(
+    () => [
       {
         label: remote.app.name,
         submenu: [
@@ -143,7 +145,9 @@ const App: React.FC = props => {
           }
         ]
       }
-    ], [])
+    ],
+    []
+  );
 
   useElectronMenu(menuTemplate);
 
@@ -191,7 +195,15 @@ const App: React.FC = props => {
 
       {transitions.map(({ key, item: initialized, props }) =>
         initialized ? (
-          <animated.div key={key} style={{display: "flex", flexDirection: "column", justifyContent: "center", ...props}}>
+          <animated.div
+            key={key}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              ...props
+            }}
+          >
             <MusicPlayer
               seeking={isSeeking}
               onStartSeeking={() => {
@@ -225,7 +237,7 @@ const App: React.FC = props => {
             />
           </animated.div>
         ) : (
-          <animated.div style={{height: "100vh", ...props}} key={key}>
+          <animated.div style={{ height: "100vh", ...props }} key={key}>
             <Onboarding
               onStarted={() => {
                 const filePath = remote.dialog.showOpenDialogSync({
