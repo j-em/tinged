@@ -17,8 +17,8 @@
       "images/*": ["images/*"],
       "ui/*": ["ui/*"],
       "views/*": ["views/*"]
-    }
-  },
+    },
 
-  "include": ["src/**/*"]
+  },
+  "include": ["src/**/*.ts"]
 }
