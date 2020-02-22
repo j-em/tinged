@@ -57,7 +57,6 @@ const Container = styled.div`
 const Content = styled.div`
   border-left: ${({ theme }) => `1px solid ${theme.colors.secondary[2]}`};
   border-right: ${({ theme }) => `1px solid ${theme.colors.secondary[2]}`};
-  border-bottom: 1px solid black;
   font-size: inherit;
 `;
 
