@@ -105,8 +105,13 @@ const Slider: React.FC<SliderProps> = ({
 
   const mapValueToOffset = useCallback(
     (v: number): number => {
-      const ratio = v / max;
-      return ratio * sliderWidth;
+      if (max === 0) {
+        return 0
+      } else {
+        const ratio = v / max;
+        return ratio * sliderWidth;
+  
+      }
     },
     [sliderWidth, max]
   );
