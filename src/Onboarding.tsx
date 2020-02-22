@@ -3,12 +3,19 @@ import { FaMusic, FaReact, FaSearch } from "react-icons/fa";
 import { useMedia } from "react-use";
 import styled from "styled-components";
 import media from "styled-media-query";
-import { color, ColorStyleProps, fontSize, FontSizeProps } from "styled-system";
+import {
+  color,
+  ColorStyleProps,
+  fontSize,
+  FontSizeProps,
+  fontWeight,
+  FontWeightProps
+} from "styled-system";
 import Button from "ui/Button";
 
 import theme from "./theme";
 
-const Heading = styled.h1<FontSizeProps & ColorStyleProps>`
+const Heading = styled.h1<FontSizeProps & ColorStyleProps & FontWeightProps>`
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -16,6 +23,7 @@ const Heading = styled.h1<FontSizeProps & ColorStyleProps>`
   color: ${({ theme }) => theme.colors.secondary[9]};
   ${fontSize}
   ${color}
+  ${fontWeight}
 `;
 
 const IconWrapper = styled.div`
@@ -48,7 +56,7 @@ const Header = styled.header`
   padding: 1rem;
 
   ${Heading} {
-    margin: 0;
+    margin: 0.5rem 0;
   }
 `;
 
@@ -60,7 +68,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onStarted, className }) => {
     <div className={className}>
       <Header>
         <Heading fontSize={8}>Tinged</Heading>
-        <Heading fontSize={4}>A modern and powerful media player</Heading>
+        <Heading fontSize={3}>A modern media player</Heading>
       </Header>
 
       <Section>
@@ -78,7 +86,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onStarted, className }) => {
       </Section>
 
       <Section>
-        <Heading fontSize={4}>
+        <Heading fontSize={3}>
           <IconWrapper>
             <FaSearch />
           </IconWrapper>
@@ -91,7 +99,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onStarted, className }) => {
       </Section>
 
       <Section>
-        <Heading fontSize={4}>
+        <Heading fontSize={3}>
           <IconWrapper>
             <FaReact />
           </IconWrapper>
