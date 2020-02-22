@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useMemo, useReducer, useState } from "react";
 import styled from "styled-components";
 
 import Controls from "./Controls";
@@ -15,7 +15,7 @@ export type Metadata = {
   picture?: Buffer;
 };
 
-const Img = styled.div`
+const ImgContainer = styled.div`
   img {
     min-width: 50px;
     max-width: 100%;
@@ -42,7 +42,7 @@ const Metadata = styled.div`
   grid-gap: 0 1em;
   padding: 1rem 0;
 
-  ${Img} {
+  ${ImgContainer} {
     justify-self: center;
   }
 
@@ -106,60 +106,77 @@ type PlayerProps = {
   onStopSeeking?: () => void;
   seeking: boolean;
 };
-const MusicPlayer: React.FC<PlayerProps> = ({
-  className,
-  metadata,
-  onPause,
-  onStop,
-  onPlay,
-  volume,
-  status,
-  onVolumeChange,
-  onSeek,
-  duration = 100,
-  seek = 0,
-  onStartSeeking,
-  onStopSeeking,
-  seeking
-}) => {
-  return (
-    <Container className={className}>
-      <Metadata>
-        {metadata?.picture?.[0] && (
-          <Img>
-            <img src={URL.createObjectURL(new Blob([metadata.picture]))} />
-          </Img>
-        )}
 
-        <Title>{metadata?.title}</Title>
-        {metadata?.album && <Album>{metadata?.album}</Album>}
-      </Metadata>
-      <Controls
-        onPause={onPause}
-        onPlay={onPlay}
-        onStop={onStop}
-        playing={status === "playing"}
-      />
-      <SeekBar
-        seeking={seeking}
-        onStartSeeking={onStartSeeking}
-        onStopSeeking={onStopSeeking}
-        value={seek}
-        onSeek={onSeek}
-        max={duration}
-        disabled={status === "stopped"}
-      />
-      <SoundBar
-        value={volume}
-        onChange={n => {
-          if (onVolumeChange) {
-            onVolumeChange(n);
-          }
-        }}
-      />
-    </Container>
-  );
-};
+const MusicPlayer: React.FC<PlayerProps> = React.memo(
+  ({
+    className,
+    metadata,
+    onPause,
+    onStop,
+    onPlay,
+    volume,
+    status,
+    onVolumeChange,
+    onSeek,
+    duration = 100,
+    seek = 0,
+    onStartSeeking,
+    onStopSeeking,
+    seeking
+  }) => {
+    const [imgUrl, setImgUrl] = useState<string>();
+
+    useEffect(() => {
+      if (metadata?.picture) {
+        const url = URL.createObjectURL(new Blob([metadata.picture]));
+        setImgUrl(url);
+
+        return () => {
+          URL.revokeObjectURL(url);
+        };
+      } else {
+        setImgUrl(undefined);
+      }
+    }, [metadata?.picture, setImgUrl]);
+
+    return (
+      <Container className={className}>
+        <Metadata>
+          {imgUrl && (
+            <ImgContainer>
+              <img src={imgUrl} />
+            </ImgContainer>
+          )}
+          <Title>{metadata?.title}</Title>
+          {metadata?.album && <Album>{metadata?.album}</Album>}
+        </Metadata>
+        <Controls
+          onPause={onPause}
+          onPlay={onPlay}
+          onStop={onStop}
+          playing={status === "playing"}
+        />
+        <SeekBar
+          seeking={seeking}
+          onStartSeeking={onStartSeeking}
+          onStopSeeking={onStopSeeking}
+          value={seek}
+          onSeek={onSeek}
+          max={duration}
+          disabled={status === "stopped"}
+        />
+        <SoundBar
+          value={volume}
+          onChange={n => {
+            if (onVolumeChange) {
+              onVolumeChange(n);
+            }
+          }}
+        />
+      </Container>
+    );
+  }
+);
 
 const StyledMusicPlayer = styled(MusicPlayer)`
   user-select: none;
