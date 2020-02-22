@@ -83,6 +83,7 @@
     "@types/react-dom": "^16.9.5",
     "@types/react-helmet": "^5.0.15",
     "@types/styled-components": "^4.4.2",
+    "@types/styled-system": "^5.1.7",
     "@types/use-resize-observer": "^6.0.0",
     "@typescript-eslint/eslint-plugin": "^2.19.0",
     "@typescript-eslint/parser": "^2.19.0",
@@ -117,7 +118,10 @@
     "react-use-promise": "^0.2.0",
     "styled-components": "^5.0.1",
     "styled-media-query": "^2.1.2",
+    "styled-system": "^5.1.5",
+    "ts-key-enum": "^2.0.2",
     "typeface-aileron": "0.0.66",
+    "use-onclickoutside": "^0.3.1",
     "use-resize-observer": "^6.0.0"
   }
 }
