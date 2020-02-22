@@ -26,25 +26,34 @@ import theme from "./theme";
 import useElectronMenu from "./useElectronMenu";
 import useMusicMetadata from "./useMusicMetadata";
 import Onboarding from "./Onboarding";
+import Library from "./Library";
 
+import { useLocalStorage } from "react-use";
 import ailerontFont from "typeface-aileron/files/aileron-400.woff";
+import "./App.css";
 
 const GlobalStyle = createGlobalStyle`
-@font-face {
-  font-family: 'Aileron';
-  src: url("${ailerontFont}") format("woff");
-  font-weight: 400;
-  font-style: normal;
-}
 ${normalize()}
 `;
 
+const Container = styled.div`
+min-height: 100vh;
+`;
+
 const App: React.FC = props => {
+  const [library, setLibrary] = useLocalStorage<ReadonlyArray<string>>(
+    "library",
+    []
+  );
+
   const [initialized, setInitialized] = useState(false);
+
+  const [isLibraryOpened, setLibraryOpened] = useState(false);
+
   const [filePath, setFilePath] = useState<string>();
   const [status, setStatus] = useState<Status>();
   const [isSeeking, setSeeking] = useState(false);
-  const [volume, setVolume] = useState(20);
+  const [volume, setVolume] = useState(0.2);
 
   const [duration, setDuration] = useState<number>(0);
   const [seekVal, setSeek] = useState<number>(0);
@@ -70,9 +79,14 @@ const App: React.FC = props => {
         format,
         volume: 0.2,
         onload: () => {
+          setInitialized(true);
           setStatus("loaded");
           setDuration(howlRef.current?.duration() as number);
           setSeek(0);
+          setLibrary(library =>
+            library.includes(filePath) ? library : [filePath, ...library]
+          );
+
           howlRef.current?.play();
         },
         onplay: () => {
@@ -96,10 +110,8 @@ const App: React.FC = props => {
           setSeek(howlRef.current?.seek() as number);
         }
       });
-
-      setInitialized(true);
     }
-  }, [filePath, setInitialized, setStatus, setDuration, setSeek]);
+  }, [filePath, setInitialized, setStatus, setDuration, setSeek, setLibrary]);
 
   const menuTemplate: (
     | Electron.MenuItem
@@ -153,105 +165,151 @@ const App: React.FC = props => {
 
   const metadata = useMusicMetadata(filePath);
 
-  const transitions = useTransition(initialized, null, {
+  const initTransition = useTransition(initialized, null, {
     from: {
-      opacity: 0,
-      position: "absolute",
-      width: "100%"
+      opacity: 0
     },
+
     enter: {
-      opacity: 1
+      opacity: 1,
+      position: "absolute",
+      width: "100%",
+      height: "100%"
+
     },
 
     leave: {
-      opacity: 0
+      opacity: 0,
+
     }
   });
 
-  const play = () => {
+  const playerTransition = useTransition(isLibraryOpened, null, {
+    from: { opacity: 0 },
+
+    enter: {
+      opacity: 1,
+      position: "absolute",
+      width: "100%"
+    },
+
+    leave: {
+      opacity: 0,
+
+    }
+  });
+
+  const play = useCallback(() => {
     howlRef.current?.play();
-  };
-  const stop = () => {
+  }, []);
+
+  const stop = useCallback(() => {
     howlRef.current?.stop();
     howlRef.current?.seek(0);
-  };
-  const pause = () => {
-    howlRef.current?.pause();
-  };
-  const seek = (n: number) => {
-    howlRef.current?.seek(n);
-  };
+  }, []);
 
-  const updateVolume = (n: number) => {
+  const pause = useCallback(() => {
+    howlRef.current?.pause();
+  }, []);
+
+  const seek = useCallback((n: number) => {
+    howlRef.current?.seek(n);
+  }, []);
+
+  const updateVolume = useCallback((n: number) => {
     howlRef.current?.volume(n / 100);
-  };
+  }, []);
+
+  const onStartHandler = useCallback(() => {
+    const filePath = remote.dialog.showOpenDialogSync({
+      properties: ["openFile"]
+    });
+    if (filePath?.[0]) {
+      setFilePath(filePath[0]);
+    }
+  }, [setFilePath]);
+
+  const onOpenLibrary = useCallback(() => setLibraryOpened(true), [
+    setLibraryOpened
+  ]);
+  const onCloseLibrary = useCallback(() => setLibraryOpened(false), [
+    setLibraryOpened
+  ]);
+
+  const onDeleteLibrary = useCallback(
+    (file: string) => setLibrary(library => library.filter(f => f !== file)),
+    [setLibrary]
+  );
 
   return (
-    <ThemeProvider theme={theme}>
+    <Container>
       <GlobalStyle />
       <Helmet>
-        <title>Tinged </title>
+        <title>Tinged</title>
       </Helmet>
+      <ThemeProvider theme={theme}>
+        {initTransition.map(({ key, item: initialized, props }) =>
+          initialized ? (
+            <animated.div style={props} key={key}>
+              <Library
+                files={library}
+                onFileClick={setFilePath}
+                selected={filePath}
+                opened={isLibraryOpened}
+                onOpen={onOpenLibrary}
+                onClose={onCloseLibrary}
+                onDelete={onDeleteLibrary}
+              />
 
-      {transitions.map(({ key, item: initialized, props }) =>
-        initialized ? (
-          <animated.div
-            key={key}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              ...props
-            }}
-          >
-            <MusicPlayer
-              seeking={isSeeking}
-              onStartSeeking={() => {
-                setSeeking(true);
-                pause();
-              }}
-              onStopSeeking={() => {
-                setSeeking(false);
-                play();
-              }}
-              onSeek={n => {
-                if (n > duration) {
-                } else {
-                  seek(n);
-                }
-              }}
-              volume={volume}
-              status={status}
-              metadata={{
-                title: metadata?.common.title ?? basename(filePath as string),
-                album: metadata?.common.album,
-                artist: metadata?.common.artist,
-                picture: metadata?.common.picture?.[0].data
-              }}
-              duration={duration}
-              seek={seekVal}
-              onPause={pause}
-              onPlay={play}
-              onStop={stop}
-              onVolumeChange={updateVolume}
-            />
-          </animated.div>
-        ) : (
-          <animated.div style={{ height: "100vh", ...props }} key={key}>
-            <Onboarding
-              onStarted={() => {
-                const filePath = remote.dialog.showOpenDialogSync({
-                  properties: ["openFile"]
-                });
-                if (filePath?.[0]) {
-                  setFilePath(filePath[0]);
-                }
-              }}
-            />{" "}
-          </animated.div>
-        )
-      )}
-    </ThemeProvider>
+              {playerTransition.map(
+                ({ item: isLibraryOpened, key: k, props: style }) =>
+                  !isLibraryOpened && (
+                    <animated.div style={style} key={k}>
+                      <MusicPlayer
+                        seeking={isSeeking}
+                        onStartSeeking={() => {
+                          setSeeking(true);
+                          pause();
+                        }}
+                        onStopSeeking={() => {
+                          setSeeking(false);
+                          play();
+                        }}
+                        onSeek={n => {
+                          if (n > duration) {
+                          } else {
+                            seek(n);
+                          }
+                        }}
+                        volume={volume}
+                        status={status}
+                        metadata={{
+                          title:
+                            metadata?.common.title ??
+                            basename(filePath as string),
+                          album: metadata?.common.album,
+                          artist: metadata?.common.artist,
+                          picture: metadata?.common.picture?.[0].data
+                        }}
+                        duration={duration}
+                        seek={seekVal}
+                        onPause={pause}
+                        onPlay={play}
+                        onStop={stop}
+                        onVolumeChange={updateVolume}
+                      />
+                    </animated.div>
+                  )
+              )}
+            </animated.div>
+          ) : (
+            <animated.div style={props} key={key}>
+              <Onboarding onStarted={onStartHandler} />
+            </animated.div>
+          )
+        )}
+      </ThemeProvider>
+    </Container>
   );
 };
 
