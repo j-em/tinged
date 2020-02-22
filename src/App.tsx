@@ -53,7 +53,7 @@ const App: React.FC = props => {
   const [filePath, setFilePath] = useState<string>();
   const [status, setStatus] = useState<Status>();
   const [isSeeking, setSeeking] = useState(false);
-  const [volume, setVolume] = useState(0.2);
+  const [volume, setVolume] = useState(20);
 
   const [duration, setDuration] = useState<number>(0);
   const [seekVal, setSeek] = useState<number>(0);
