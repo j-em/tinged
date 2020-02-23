@@ -90,11 +90,11 @@ const Onboarding: React.FC<OnboardingProps> = ({ onStarted, className }) => {
           <IconWrapper>
             <FaSearch />
           </IconWrapper>
-          Find your favorite hits
+          Powerful search features
         </Heading>
         <Text>
           Search through your Tinged library to find the hits that you want
-          quickly.
+          using simple keywords.
         </Text>
       </Section>
 
