@@ -37,7 +37,7 @@ ${normalize()}
 `;
 
 const Container = styled.div`
-min-height: 100vh;
+height: 100vh;
 `;
 
 const App: React.FC = props => {
