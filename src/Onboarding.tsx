@@ -40,6 +40,9 @@ const Section = styled.section``;
 
 const Footer = styled.footer`
   padding: 1rem;
+  position: sticky;
+  background-color: white;
+  bottom: 0;
   ${Button} {
     display: block;
     margin-left: auto;
@@ -51,9 +54,13 @@ const Footer = styled.footer`
 `;
 
 const Header = styled.header`
+  background-color: white;
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  border-bottom: ${({ theme }) => `1px solid ${theme.colors.secondary[1]}`};
 
   ${Heading} {
     margin: 0.5rem 0;
