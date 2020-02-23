@@ -17,7 +17,7 @@ export type Metadata = {
 
 const ImgContainer = styled.div`
   img {
-    min-width: 50px;
+    min-width: 10px;
     max-width: 100%;
     height: auto;
   }
