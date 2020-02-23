@@ -29,7 +29,6 @@ import Onboarding from "./Onboarding";
 import Library from "./Library";
 
 import { useLocalStorage } from "react-use";
-import ailerontFont from "typeface-aileron/files/aileron-400.woff";
 import "./App.css";
 
 const GlobalStyle = createGlobalStyle`
