@@ -59,11 +59,14 @@ const SoundBar: React.FC<SoundBarProps> = ({
 };
 
 const StyledSoundBar = styled(SoundBar)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
   min-height: 5px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+  ${VolumeIcon} {
+    padding-right: 5px;
+  }
 `;
 
 export default StyledSoundBar;
