@@ -75,7 +75,7 @@ const Onboarding: React.FC<OnboardingProps> = ({ onStarted, className }) => {
     <div className={className}>
       <Header>
         <Heading fontSize={8}>Tinged</Heading>
-        <Heading fontSize={3}>A modern media player</Heading>
+        <Heading fontSize={3} color={"secondary.8"} fontWeight={400}>A modern media player</Heading>
       </Header>
 
       <Section>
