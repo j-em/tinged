@@ -5,10 +5,10 @@ import { colors } from "./theme";
 import { modularScale } from "polished";
 
 const Box = styled.div`
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: space-around;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
 }
 `;
 
@@ -18,10 +18,10 @@ const Timestamp = styled.p`
 `;
 
 const TotalTimestamp = styled(Timestamp)`
-  margin-left: 10px;
+  margin: 0 0 0 10px;
 `;
 const ElapsedTimestamp = styled(Timestamp)`
-  margin-right: 10px;
+  margin: 0 10px 0 0;
 `;
 
 const prettyPrintSecond = (second: number): string =>
