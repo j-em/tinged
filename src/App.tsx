@@ -107,6 +107,9 @@ const App: React.FC = props => {
 
         onseek: () => {
           setSeek(howlRef.current?.seek() as number);
+        },
+        onvolume: () => {
+          setVolume((howlRef.current?.volume() as number) * 100);
         }
       });
     }
