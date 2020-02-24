@@ -9,7 +9,6 @@ const Box = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
-}
 `;
 
 const Timestamp = styled.p`
