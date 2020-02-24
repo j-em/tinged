@@ -113,7 +113,15 @@ const App: React.FC = props => {
         }
       });
     }
-  }, [filePath, setInitialized, setStatus, setDuration, setSeek, setLibrary]);
+  }, [
+    filePath,
+    setInitialized,
+    setStatus,
+    setDuration,
+    setSeek,
+    setLibrary,
+    setVolume
+  ]);
 
   const menuTemplate: (
     | Electron.MenuItem
