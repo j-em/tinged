@@ -16,10 +16,9 @@ export type Metadata = {
 };
 
 const ImgContainer = styled.div`
-  img {
-    min-width: 10px;
+  > img {
     max-width: 100%;
-    height: auto;
+    min-width: 0;
   }
 `;
 
@@ -59,27 +58,56 @@ const Metadata = styled.div`
 
 const Container = styled.div`
   display: grid;
-  box-sizing: border-box;
-  grid-template-columns: 4fr 1fr;
-  grid-gap: 1rem;
-  padding: 2em;
+
+  grid-gap: 2rem;
   align-items: center;
 
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
+
   ${Metadata} {
-    grid-column: 1/3;
+    grid-row: 1;
+    grid-column: 1 / span 2;
   }
 
   ${Controls} {
-    grid-column: 1/3;
-    align-self: end;
+    grid-row: 2;
+    grid-column: 1 / span 2;
   }
 
   ${SeekBar} {
-    align-self: start;
+    grid-row: 3;
+    grid-column: 1;
   }
 
   ${SoundBar} {
-    grid-column: 0.5;
+    grid-row: 3;
+    grid-column: 2;
+  }
+
+  @media (min-aspect-ratio: 1/1) {
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 3fr 1fr;
+
+    ${SoundBar} {
+      grid-row: 1 / span 2;
+      grid-column: 3;
+    }
+    ${Metadata} {
+      grid-row: 1 / span 2;
+      grid-column: 1;
+    }
+    ${Controls} {
+      align-self: flex-end;
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    ${SeekBar} {
+      align-self: flex-start;
+      grid-row: 2;
+      grid-column: 2;
+    }
   }
 `;
 
@@ -181,6 +209,10 @@ const MusicPlayer: React.FC<PlayerProps> = React.memo(
 const StyledMusicPlayer = styled(MusicPlayer)`
   user-select: none;
   padding: 1em;
+  max-height: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  padding: 1rem;
 `;
 
 export default StyledMusicPlayer;
