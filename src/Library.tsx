@@ -107,6 +107,7 @@ const Library: React.FC<LibraryProps> = ({
   }, [opened]);
 
   const openedTransition = useTransition(opened, null, {
+    unique: true,
     from: {
       height: 0
     },

@@ -106,7 +106,7 @@ const SeekBar: React.FC<SeekBarProps> = ({
 };
 
 export default styled(SeekBar)`
-  transitions: 0.5s opacity;
+  transition: 0.5s opacity;
 
   opacity: ${props => (props.disabled ? 0.7 : 1)};
 

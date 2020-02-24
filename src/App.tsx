@@ -37,6 +37,7 @@ ${normalize()}
 
 const Container = styled.div`
 height: 100vh;
+  box-sizing: border-box;
 `;
 
 const App: React.FC = props => {
@@ -176,36 +177,31 @@ const App: React.FC = props => {
   const metadata = useMusicMetadata(filePath);
 
   const initTransition = useTransition(initialized, null, {
+    unique: true,
     from: {
       opacity: 0
     },
 
     enter: {
-      opacity: 1,
-      position: "absolute",
-      width: "100%",
-      height: "100%"
-
+      opacity: 1
     },
 
     leave: {
-      opacity: 0,
-
+      opacity: 0
     }
   });
 
   const playerTransition = useTransition(isLibraryOpened, null, {
+    unique: true,
+
     from: { opacity: 0 },
 
     enter: {
-      opacity: 1,
-      position: "absolute",
-      width: "100%"
+      opacity: 1
     },
 
     leave: {
-      opacity: 0,
-
+      opacity: 0
     }
   });
 
@@ -260,7 +256,17 @@ const App: React.FC = props => {
       <ThemeProvider theme={theme}>
         {initTransition.map(({ key, item: initialized, props }) =>
           initialized ? (
-            <animated.div style={props} key={key}>
+            <animated.div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                boxSizing: "border-box",
+                padding: "1rem",
+                ...props
+              }}
+              key={key}
+            >
               <Library
                 files={library}
                 onFileClick={setFilePath}
@@ -274,7 +280,15 @@ const App: React.FC = props => {
               {playerTransition.map(
                 ({ item: isLibraryOpened, key: k, props: style }) =>
                   !isLibraryOpened && (
-                    <animated.div style={style} key={k}>
+                    <animated.div
+                      style={{
+                        margin: "auto 0",
+                        display: "flex",
+                        minHeight: 0,
+                        ...style
+                      }}
+                      key={k}
+                    >
                       <MusicPlayer
                         seeking={isSeeking}
                         onStartSeeking={() => {
