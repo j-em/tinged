@@ -48,9 +48,7 @@ const SearchBar = styled.input`
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
   position: relative;
-  min-width: min-content;
   font-size: 1rem;
 `;
 
