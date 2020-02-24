@@ -36,7 +36,7 @@ ${normalize()}
 `;
 
 const Container = styled.div`
-height: 100vh;
+  height: 100vh;
   box-sizing: border-box;
 `;
 
