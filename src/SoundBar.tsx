@@ -7,8 +7,8 @@ import { colors } from "./theme";
 
 const SoundSlider = styled(Slider)`
   background-color: ${colors.gray[3]};
-  flex: 1;
   height: 4px;
+  flex: 1;
   ${Thumb} {
     background-color: ${colors.gray[7]};
     border-radius: 25px;
@@ -17,7 +17,6 @@ const SoundSlider = styled(Slider)`
 
 const VolumeIcon = styled(FaVolumeUp)`
   color: ${colors.gray[7]};
-  margin-right: 10px;
 `;
 
 type SoundBarProps = {
@@ -42,18 +41,16 @@ const SoundBar: React.FC<SoundBarProps> = ({
       onMouseLeave={() => setHovering(false)}
     >
       <VolumeIcon onClick={() => onMute && onMute()} />
-      {
-        <SoundSlider
-          sliding={isSliding}
-          onStartSliding={() => setSliding(true)}
-          onStopSliding={() => setSliding(false)}
-          value={value}
-          max={100}
-          onChange={onChange}
-          hideThumb={!(isHovering || isSliding)}
-          initialThumbSize={{ height: 10, width: 10 }}
-        />
-      }
+      <SoundSlider
+        sliding={isSliding}
+        onStartSliding={() => setSliding(true)}
+        onStopSliding={() => setSliding(false)}
+        value={value}
+        max={100}
+        onChange={onChange}
+        hideThumb={!(isHovering || isSliding)}
+        initialThumbSize={{ height: 10, width: 10 }}
+      />
     </div>
   );
 };
