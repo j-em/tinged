@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Slider, { Thumb } from "ui/Slider";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Slider, { Thumb } from "ui/Slider";
+
 import { colors } from "./theme";
-import { modularScale } from "polished";
 
 const Box = styled.div`
   display: flex;
